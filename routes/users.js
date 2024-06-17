@@ -6,8 +6,8 @@ const User = require('../models/User');
 // Route για εγγραφή
 router.post('/register', async (req, res) => {
   try {
-    const { username, password, role } = req.body;
-    const user = new User({ username, password, role });
+    const { username, password, role, customerAddress, customerPhone } = req.body;
+    const user = new User({ username, password, role, customerAddress, customerPhone });
     await user.save();
     res.status(201).json(user);
   } catch (err) {

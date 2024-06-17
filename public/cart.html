@@ -17,46 +17,6 @@
 <button id="checkoutButton">Ολοκλήρωση Αγοράς</button>
 
 <script src="scripts.js"></script>
-<script>
-    function checkLoginStatus() {
-        return fetch('/users/user', {
-            method: 'GET',
-            credentials: 'include'
-        }).then(response => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('User not authenticated');
-            }
-        });
-    }
-
-    checkLoginStatus().then(data => {
-        const logoutButton = document.getElementById('logoutButton');
-        const loggedInUser = document.getElementById('loggedInUser');
-
-        if (logoutButton && loggedInUser) {
-            logoutButton.style.display = 'inline-block';
-            loggedInUser.style.display = 'block';
-            loggedInUser.textContent = `Welcome, ${data.user.username}`;
-        }
-    }).catch(error => {
-        window.location.href = 'login.html';
-    });
-
-    //logout button
-    document.getElementById('logoutButton').addEventListener('click', () => {
-        fetch('/users/logout', {
-            method: 'GET',
-            credentials: 'include'
-        }).then(response => {
-            if (response.ok) {
-                window.location.href = 'index.html';
-            } else {
-                alert('Logout failed');
-            }
-        });
-    });
-</script>
+<script src="cart.js"></script>
 </body>
 </html>
