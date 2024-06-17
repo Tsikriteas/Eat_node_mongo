@@ -31,10 +31,6 @@ async function loginUser(event) {
     }
 }
 
-// Function to calculate total
-//function calculateTotal(cart) {
-//    return cart.reduce((total, item) => total + item.price, 0);
-//}
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -50,7 +46,4 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutButton.addEventListener('click', checkout);
     }
 
-    //if (window.location.pathname === '/orders.html') {
-    //    getAllOrders();
-    //}
 });

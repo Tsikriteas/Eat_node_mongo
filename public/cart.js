@@ -47,7 +47,7 @@ function displayCartItems() {
         const li = document.createElement('li');
         li.textContent = `${item.name} - ${item.description} - ${item.price} ${item.currency}`;
 
-        // Δημιουργία κουμπιού "Αφαίρεση"
+        // Create delete button
         const removeFromCartButton = document.createElement('button');
         removeFromCartButton.textContent = 'Αφαίρεση';
         removeFromCartButton.addEventListener('click', () => {
@@ -77,6 +77,7 @@ async function checkout() {
         return;
     }
 
+    // get user data to place the order
     try {
         const data = await checkLoginStatus();
         const user = data.user;
@@ -132,7 +133,4 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutButton.addEventListener('click', checkout);
     }
 
-    //if (window.location.pathname === '/orders.html') {
-    //    getAllOrders();
-    //}
 });

@@ -57,14 +57,14 @@ fetch('/users/user', {
         }
     })
     .then(user => {
-        // Αν ο χρήστης είναι συνδεδεμένος, εμφανίζουμε το όνομα του και αποκρύπτουμε το κουμπί Login
+        // if user is logged in disable login button
         document.getElementById('loggedInUser').textContent = `Logged in as: ${user.user.username}`;
         document.getElementById('loggedInUser').style.display = 'block';
         document.getElementById('loginButton').style.display = 'none';
         document.getElementById('logoutButton').style.display = 'block';
     })
     .catch(error => {
-        // Αν ο χρήστης δεν είναι συνδεδεμένος, εμφανίζουμε το κουμπί Login και αποκρύπτουμε το όνομα του χρήστη
+        // if user is loged out disable logout button
         console.error('User not authenticated:', error);
         document.getElementById('logoutButton').style.display = 'none';
         document.getElementById('loggedInUser').style.display = 'none';
@@ -145,7 +145,7 @@ function addToCart(item) {
     });
 }
 
-//api kanei metatropes mono apo eur
+//use api to convert price
 function updatePricesWithSelectedCurrency() {
     const categoryItemsList = document.getElementById('categoryItems');
     Array.from(categoryItemsList.children).forEach(li => {
@@ -196,10 +196,10 @@ async function fetchCurrencyRates() {
         console.error('Error fetching currency rates:', error);
     }
 }
-//μονο οταν έχω rates να εκτελεστει
+//use where there are rates
 fetchCurrencyRates()
     .then(() => {
-        // Παράδειγμα χρήσης της convertPriceToCurrency
+
     })
     .catch(error => {
         console.error('Error in fetchCurrencyRates or doSomethingAfterFetch:', error);
@@ -209,7 +209,7 @@ function convertPriceToCurrency(price, currency) {
     if (currency === 'EUR') {
         return price.toFixed(2) + ' EUR';
     }
-    //αναλογα με το τι θελει ο user
+    //choose currency from the dropdown
     let rate = 1;
     for (const cr in currencyRates) {
         if (currencyRates.hasOwnProperty(cr)) {
@@ -226,7 +226,7 @@ function convertPriceToCurrency(price, currency) {
     }
 }
 
-//αν ειναι ευρω θελω διαίρεση γιατί ειναι vs προς ευρω
+//api shares the rates from euro. if i want eur then use "/"
 function convertPriceToEur(price, currency) {
     let rate = 1;
     for (const cr in currencyRates) {
@@ -266,7 +266,4 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutButton.addEventListener('click', checkout);
     }
 
-    //if (window.location.pathname === '/orders.html') {
-    //    getAllOrders();
-    //}
 });
