@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Delivery Shop</title>
+    <link rel="stylesheet" href="./stylesheets/style.css">
+</head>
+<body>
+<header>
+    <h1 id="shopTitle">Category Products</h1>
+    <button id="loginButton">Login</button>
+    <button id="logoutButton" style="display: none;">Logout</button>
+    <button id="viewCartButton" class="view-cart-button">View Cart</button>
+    <p id="loggedInUser" style="display: none;"></p>
+    <select id="currencyDropdown">
+        <option value="EUR">EUR</option>
+        <option value="USD">USD</option>
+        <option value="GBP">GBP</option>
+    </select>
+</header>
+
+<h1>Products in Category</h1>
+<ul id="categoryItems"></ul>
+
+<script src="scripts.js"></script>
+<script>
+    document.getElementById('shopTitle').addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+    // cart Button
+    document.getElementById('viewCartButton').addEventListener('click', () => {
+        checkLoginStatus().then(data => {
+            window.location.href = 'cart.html';
+        })
+            .catch(error =>{
+                window.location.href = 'login.html';
+            });
+    });
+
+    document.getElementById('loginButton').addEventListener('click', () => {
+        window.location.href = 'login.html';
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', () => {
+        fetch('/users/logout', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                alert('Logout failed');
+            }
+        });
+    });
+
+    // check user login
+    function checkLoginStatus() {
+        return fetch('/users/user', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('User not authenticated');
+            }
+        });
+    }
+
+    fetch('/users/user', {
+        method: 'GET',
+        credentials: 'include'
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('User not authenticated');
+            }
+        })
+        .then(user => {
+            // Αν ο χρήστης είναι συνδεδεμένος, εμφανίζουμε το όνομα του και αποκρύπτουμε το κουμπί Login
+            document.getElementById('loggedInUser').textContent = `Logged in as: ${user.user.username}`;
+            document.getElementById('loggedInUser').style.display = 'block';
+            document.getElementById('loginButton').style.display = 'none';
+            document.getElementById('logoutButton').style.display = 'block';
+        })
+        .catch(error => {
+            // Αν ο χρήστης δεν είναι συνδεδεμένος, εμφανίζουμε το κουμπί Login και αποκρύπτουμε το όνομα του χρήστη
+            console.error('User not authenticated:', error);
+            document.getElementById('logoutButton').style.display = 'none';
+            document.getElementById('loggedInUser').style.display = 'none';
+            document.getElementById('loginButton').style.display = 'block';
+        });
+</script>
+</body>
+</html>

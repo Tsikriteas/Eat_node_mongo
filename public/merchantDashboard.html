@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Dashboard</title>
+    <link rel="stylesheet" href="./stylesheets/style.css">
+</head>
+<body>
+<header>
+    <button id="logoutButton" style="display: none;">Logout</button>
+    <p id="loggedInUser" style="display: none;"></p>
+</header>
+
+<h1>Merchant Dashboard</h1>
+<h2>All Orders</h2>
+<ul id="orderList"></ul>
+
+<script src="scripts.js"></script>
+<script>
+    // Check if user is logged in and is a merchant
+    function checkLoginStatus() {
+        return fetch('/users/user', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('User not authenticated');
+            }
+        });
+    }
+
+    function fetchOrders() {
+        return fetch('/orders', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch orders');
+            }
+        });
+    }
+
+    // Check login status and fetch orders if user is a merchant
+    checkLoginStatus().then(data => {
+        //if (data.role === 'merchant') {
+            document.getElementById('logoutButton').style.display = 'inline-block';
+            document.getElementById('loggedInUser').textContent = `Welcome, ${data.user.username}`;
+            document.getElementById('loggedInUser').style.display = 'block';
+
+            fetchOrders().then(orders => {
+                const orderList = document.getElementById('orderList');
+                orders.forEach(order => {
+                    const listItem = document.createElement('li');
+                    console.log(order)
+                    listItem.textContent = `Order ${order._id}: total : ${order.total} , address: ${order.customerAddress}`;
+                    orderList.appendChild(listItem);
+                });
+            }).catch(error => {
+                console.error('Error fetching orders:', error);
+            });
+        //} else {
+           // window.location.href = 'login.html';
+        //}
+    }).catch(error => {
+        window.location.href = 'login.html';
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', () => {
+        fetch('/users/logout', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = 'index.html';
+            } else {
+                alert('Logout failed');
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Delivery Shop</title>
+    <link rel="stylesheet" href="./stylesheets/style.css">
+</head>
+<body>
+<header>
+    <h1 id="shopTitle">Cart</h1>
+    <button id="logoutButton" style="display: none;">Logout</button>
+    <p id="loggedInUser" style="display: none;"></p>
+</header>
+<h1>Το Καλάθι μου</h1>
+<ul id="cartItems"></ul>
+<button id="checkoutButton">Ολοκλήρωση Αγοράς</button>
+
+<script src="scripts.js"></script>
+<script>
+    function checkLoginStatus() {
+        return fetch('/users/user', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('User not authenticated');
+            }
+        });
+    }
+
+    checkLoginStatus().then(data => {
+        const logoutButton = document.getElementById('logoutButton');
+        const loggedInUser = document.getElementById('loggedInUser');
+
+        if (logoutButton && loggedInUser) {
+            logoutButton.style.display = 'inline-block';
+            loggedInUser.style.display = 'block';
+            loggedInUser.textContent = `Welcome, ${data.user.username}`;
+        }
+    }).catch(error => {
+        window.location.href = 'login.html';
+    });
+
+    //logout button
+    document.getElementById('logoutButton').addEventListener('click', () => {
+        fetch('/users/logout', {
+            method: 'GET',
+            credentials: 'include'
+        }).then(response => {
+            if (response.ok) {
+                window.location.href = 'index.html';
+            } else {
+                alert('Logout failed');
+            }
+        });
+    });
+</script>
+</body>
+</html>
