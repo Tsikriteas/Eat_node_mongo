@@ -31,7 +31,7 @@ document.getElementById('logoutButton').addEventListener('click', () => {
         credentials: 'include'
     }).then(response => {
         if (response.ok) {
-            window.location.href = 'login.html';
+            window.location.reload();
         } else {
             alert('Logout failed');
         }

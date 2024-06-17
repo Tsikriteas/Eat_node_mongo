@@ -2,6 +2,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f5f5f5;
 }
 
 header {
@@ -9,8 +10,9 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #f8f8f8;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 header h1 {
@@ -22,6 +24,12 @@ header h1 {
 
 header button {
   margin: 0 10px;
+  background-color: #f8f8f8;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .category-grid {
@@ -38,13 +46,25 @@ header button {
   justify-content: center;
   align-items: center;
   margin: 10px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  background-color: #fff;
+  border: 1px solid #ddd;
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-li{
+
+.category-item h3 {
+  text-align: center;
+  margin: 0;
+  color: #333;
+}
+
+.category-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+li {  /* Similar styles to .category-item, can be combined if desired */
   width: 200px;
   height: 200px;
   display: flex;
@@ -58,7 +78,38 @@ li{
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.category-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+button {  /* Generic button styles */
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #3e8e41;
+}
+
+.view-cart-button {  /* Specific button style */
+  background-color: #3498db;
+}
+
+.view-cart-button:hover {
+  background-color: #2980b9;
+}
+
+#currencyDropdown {
+  background-color: #f8f8f8;
+  color: #333;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }

@@ -3,7 +3,7 @@ const passport = require('passport');
 const router = express.Router();
 const User = require('../models/User');
 
-// Route για εγγραφή
+// Route register
 router.post('/register', async (req, res) => {
   try {
     const { username, password, role, customerAddress, customerPhone } = req.body;
@@ -15,7 +15,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Route για σύνδεση
+// Route login
 router.post('/login', passport.authenticate('local'), (req, res) => {
   console.log((req.user));
   if (req.user.username === 'admin') {
@@ -25,12 +25,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   }
 });
 
-// Route για αποσύνδεση
-//router.get('/logout', (req, res) => {
-//  req.logout();
-//  res.redirect('/');
-//});
-
+// Route disconnect
 router.get('/logout', (req, res) => {
   req.logout((err) => {
     if (err) {
@@ -51,8 +46,6 @@ router.get('/logout', (req, res) => {
 router.get('/user', (req, res) => {
 
   if (req.session && req.session.passport && req.session.passport.user) {
-    // Αν ο χρήστης είναι συνδεδεμένος, επιστρέφουμε τα στοιχεία του
-    console.log(req.username);
     res.status(200).json({ user : req.user });
   } else {
     // Αν ο χρήστης δεν είναι συνδεδεμένος, επιστρέφουμε κατάλληλο μήνυμα λάθους

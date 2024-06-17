@@ -7,7 +7,7 @@ async function loginUser(event) {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     console.log(username)
-
+    console.log(password)
     try {
         const response = await fetch('/users/login', {
             method: 'POST',
